@@ -1,0 +1,28 @@
+name: 'Slack Deploy Notify'
+description: 'Send a standardized Slack deployment notification via act10ns/slack'
+
+inputs:
+  status:
+    description: 'Deployment status (success, failure, cancelled, warning)'
+    required: true
+  message:
+    description: 'Additional message to include in the notification'
+    required: false
+    default: ''
+  steps:
+    description: 'JSON-encoded steps context from the calling workflow (pass toJson(steps))'
+    required: false
+    default: ''
+
+runs:
+  using: composite
+  steps:
+    - name: Notify Slack
+      if: always()
+      uses: act10ns/slack@v2.1.0
+      with:
+        status: ${{ inputs.status }}
+        message: ${{ inputs.message }}
+        steps: ${{ inputs.steps }}
+      env:
+        SLACK_WEBHOOK_URL: ${{ env.SLACK_WEBHOOK_URL }}
