@@ -3,7 +3,7 @@ description: 'Send a standardized Slack deployment notification via act10ns/slac
 
 inputs:
   status:
-    description: 'Deployment status (success, failure, cancelled, warning)'
+    description: 'Deployment status (starting, success, failure, cancelled, warning)'
     required: true
   message:
     description: 'Additional message to include in the notification'
