@@ -25,8 +25,8 @@ runs:
     # calling job fails.
     - name: Notify Slack
       if: always()
-      # Pinned to v2.1.0 commit SHA to prevent supply-chain drift.
-      uses: act10ns/slack@2eee5b53ca1dcb6188074191324692ec655230e2
+      # Pinned to v2.2.0 commit SHA to prevent supply-chain drift.
+      uses: act10ns/slack@d96404edccc6d6467fc7f8134a420c851b1e9054
       with:
         status: ${{ inputs.status }}
         message: ${{ inputs.message }}
