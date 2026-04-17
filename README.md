@@ -16,7 +16,7 @@ Wraps `act10ns/slack` with a consistent interface for deployment notifications. 
   uses: All-Campus/.github/actions/slack-deploy-notify@main
   with:
     status: ${{ job.status }}   # starting | success | failure | cancelled | warning
-    message: 'Deployed my-app to production'
+    message: '<{{ workflowRunUrl }}|Deploying my-app to production {{ jobStatus }}>'
     steps: ${{ toJson(steps) }} # optional — enables per-step status icons
   env:
     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_DEPLOY_WEBHOOK }}

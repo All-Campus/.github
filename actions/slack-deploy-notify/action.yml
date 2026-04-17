@@ -6,9 +6,11 @@ inputs:
     description: 'Deployment status (starting, success, failure, cancelled, warning)'
     required: true
   message:
-    description: 'Additional message to include in the notification'
-    required: false
-    default: ''
+    description: >
+      Notification message. Supports Slack mrkdwn and act10ns/slack template
+      variables ({{ workflowRunUrl }}, {{ jobStatus }}). Example:
+      "<{{ workflowRunUrl }}|Deploying my-app to production {{ jobStatus }}>"
+    required: true
   steps:
     description: >
       JSON-encoded steps context from the calling workflow.
