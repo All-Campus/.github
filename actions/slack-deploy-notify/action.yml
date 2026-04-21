@@ -1,0 +1,37 @@
+name: 'Slack Deploy Notify'
+description: 'Send a standardized Slack deployment notification via act10ns/slack'
+
+inputs:
+  status:
+    description: 'Deployment status (starting, success, failure, cancelled, warning)'
+    required: true
+  message:
+    description: >
+      Notification message. Supports Slack mrkdwn and act10ns/slack template
+      variables ({{ workflowRunUrl }}, {{ jobStatus }}). Example:
+      "<{{ workflowRunUrl }}|Deploying my-app to production {{ jobStatus }}>"
+    required: true
+  steps:
+    description: >
+      JSON-encoded steps context from the calling workflow.
+      Pass toJson(steps) to enable per-step status icons in the notification.
+    required: false
+    default: ''
+
+runs:
+  using: composite
+  steps:
+    # NOTE: This step uses `if: always()` to run even when prior steps in this
+    # composite fail. However, callers must ALSO add `if: always()` to the step
+    # that invokes this action — otherwise the action is never reached when the
+    # calling job fails.
+    - name: Notify Slack
+      if: always()
+      # Pinned to v2.2.0 commit SHA to prevent supply-chain drift.
+      uses: act10ns/slack@d96404edccc6d6467fc7f8134a420c851b1e9054
+      with:
+        status: ${{ inputs.status }}
+        message: ${{ inputs.message }}
+        steps: ${{ inputs.steps }}
+      env:
+        SLACK_WEBHOOK_URL: ${{ env.SLACK_WEBHOOK_URL }}
